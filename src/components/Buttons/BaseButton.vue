@@ -3,6 +3,7 @@
     :type="type"
     :disabled="disabled"
     :class="['btn', `btn_size-${size}`]"
+    @click="$emit('click')"
   >
     <slot></slot>
   </button>
