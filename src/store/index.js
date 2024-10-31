@@ -1,9 +1,11 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import { mapToSelectList } from "@/utils/utils";
 import {
   fetchAppeals as apiFetchAppeals,
   login as apiLogin,
   fetchPremises as apiFetchPremises,
+  fetchApartments as apiFetchApartments,
 } from "@/api";
 
 Vue.use(Vuex);
@@ -14,6 +16,7 @@ export default new Vuex.Store({
     token: null,
     appeals: null,
     premises: null,
+    apartments: null,
     loginError: null,
   },
   getters: {
@@ -21,6 +24,12 @@ export default new Vuex.Store({
     loginError: (state) => state.loginError,
     appeals: (state) => state.appeals,
     premises: (state) => state.premises,
+    premiseSelectList: (state) => {
+      return mapToSelectList(state.premises?.results, "id", "full_address");
+    },
+    apartmentSelectList: (state) => {
+      return mapToSelectList(state.apartments?.results, "id", "label");
+    },
   },
   mutations: {
     setEmployeeId(state, id) {
@@ -34,6 +43,9 @@ export default new Vuex.Store({
     },
     setPremises(state, premises) {
       state.premises = premises;
+    },
+    setApartments(state, apartments) {
+      state.apartments = apartments;
     },
     setLoginError(state, loginError) {
       state.loginError = loginError;
@@ -73,6 +85,12 @@ export default new Vuex.Store({
       const params = { search };
       const response = await apiFetchPremises(params);
       commit("setPremises", response);
+    },
+
+    async fetchApartments({ commit }, { search = "", premise_id = "" }) {
+      const params = { search, premise_id };
+      const response = await apiFetchApartments(params);
+      commit("setApartments", response);
     },
   },
 });

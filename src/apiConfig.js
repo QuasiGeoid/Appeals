@@ -15,5 +15,5 @@ export const ENDPOINTS = {
   LOGIN: `${API_PATHS.AUTH}/login/`,
   APPEALS: `${API_PATHS.APPEALS}/${API_VERSIONS[1]}/appeals/`,
   USER_PREMISES: `${API_PATHS.GEO}/${API_VERSIONS[2]}/user-premises/`,
-  APARTMENTS: `${API_PATHS.APARTMENTS}/${API_VERSIONS[1]}/apartments/`,
+  APARTMENTS: `${API_PATHS.GEO}/${API_VERSIONS[1]}/apartments/`,
 };

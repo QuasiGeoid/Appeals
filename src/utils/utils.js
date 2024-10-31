@@ -35,3 +35,9 @@ export function sortByField(arr, field, order = "asc") {
     return order === "asc" ? comparison : -comparison;
   });
 }
+
+export const mapToSelectList = (items, idField = "id", labelField = "label") =>
+  items?.map((item) => ({
+    value: item[idField],
+    label: item[labelField],
+  })) || [];

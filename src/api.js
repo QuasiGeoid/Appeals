@@ -64,3 +64,7 @@ export const updateAppeal = async (appealId, appealData) => {
 export const fetchPremises = async (params = {}) => {
   return makeRequest("get", ENDPOINTS.USER_PREMISES, params);
 };
+
+export const fetchApartments = async (params = {}) => {
+  return makeRequest("get", ENDPOINTS.APARTMENTS, params);
+};
