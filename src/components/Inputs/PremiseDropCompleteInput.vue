@@ -26,6 +26,7 @@ export default {
   },
   data() {
     return {
+      searchPremise: "",
       selectedPremiseId: this.value,
       loadingPremises: false,
     };
