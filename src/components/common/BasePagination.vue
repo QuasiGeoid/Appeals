@@ -27,7 +27,7 @@
     </span>
 
     <span
-      v-if="displayedPages.at(-1) < totalPages - 2"
+      v-if="displayedPages.at(-1) < totalPages - 1"
       class="base-pagination__ellipsis"
       >...</span
     >
