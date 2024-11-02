@@ -22,25 +22,13 @@
             type="text"
             placeholder="Поиск (№ заявки, название)"
           />
-          <DropCompleteInput
+          <PremiseDropCompleteInput
             class="appeals-list-page__filter"
-            v-model="selectedPremiseId"
-            :options="premiseSelectList"
-            placeholder="Дом"
-            :loading="loadingPremises"
-            @search="handleSearchPremiseUpdate"
+            v-model="premiseId"
             @input="handleAppealFilterUpdate"
           />
-          <!-- <BaseSelect
-            class="appeals-list-page__filter"
-            v-model="selectedPremiseId"
-            :options="premiseSelectList"
-            placeholder="Дом"
-            size="m"
-            @change="handleAppealFilterUpdate"
-          /> -->
         </div>
-        <LoadingSpinner v-if="loading" />
+        <LoadingSpinner v-if="loadingAppeals" />
         <div v-else>
           <AppealsTable
             :appeals="appeals?.results"
@@ -75,12 +63,12 @@
         </div>
       </div>
     </div>
-    <!-- Modal for creating/editing appeals -->
-    <!-- <AppealModal
-      v-if="showModal"
+    <AppealModal
+      class="appeals-list-page__appeal-modal"
+      v-if="showAppealModal"
       :appealId="selectedAppealId"
       @close="closeModal"
-    /> -->
+    />
   </div>
 </template>
 
@@ -88,8 +76,8 @@
 import { mapGetters } from "vuex";
 import { BaseButton } from "@/components/Buttons";
 import { BaseSelect } from "@/components/Selects";
-import { DropCompleteInput, FilterInput } from "@/components/Inputs";
-// import AppealModal from "./AppealModal.vue";
+import { PremiseDropCompleteInput, FilterInput } from "@/components/Inputs";
+import { AppealModal } from "@/components/Modals";
 import { AppealsTable } from "@/components/Tables";
 import { BasePagination } from "@/components/common/";
 import { LoadingSpinner } from "@/components/Loading";
@@ -97,26 +85,20 @@ import { LoadingSpinner } from "@/components/Loading";
 export default {
   name: "AppealsView",
   components: {
+    AppealModal,
     AppealsTable,
     BaseButton,
     BasePagination,
     BaseSelect,
-    DropCompleteInput,
+    PremiseDropCompleteInput,
     FilterInput,
     LoadingSpinner,
-    // AppealModal,
   },
   data() {
     return {
-      loading: true,
-      loadingPremises: false,
-      sort: {
-        field: "number",
-        order: "asc",
-      },
+      loadingAppeals: true,
       searchAppeal: "",
-      searchPremise: "",
-      selectedPremiseId: "",
+      premiseId: "",
       page: 1,
       pageSize: 10,
       pageSizeOptions: [
@@ -124,20 +106,12 @@ export default {
         { value: 25, label: 25 },
         { value: 50, label: 50 },
       ],
-      showModal: false,
+      showAppealModal: false,
       selectedAppealId: null,
     };
   },
   computed: {
-    ...mapGetters(["isAuthenticated", "appeals", "premises"]),
-    premiseSelectList() {
-      return this.premises?.results.map((premise) => {
-        return {
-          value: premise.id,
-          label: premise.full_address,
-        };
-      });
-    },
+    ...mapGetters(["isAuthenticated", "appeals"]),
   },
   methods: {
     resetPage() {
@@ -145,24 +119,15 @@ export default {
     },
 
     async fetchAppeals() {
-      this.loading = true;
+      this.loadingAppeals = true;
       const params = {
         search: this.searchAppeal,
-        premise_id: this.selectedPremiseId,
+        premise_id: this.premiseId,
         page_size: this.pageSize,
         page: this.page,
       };
       await this.$store.dispatch("fetchAppeals", params);
-      this.loading = false;
-    },
-
-    async fetchPremises() {
-      const params = {
-        search: this.searchPremise,
-      };
-      this.loadingPremises = true;
-      await this.$store.dispatch("fetchPremises", params);
-      this.loadingPremises = false;
+      this.loadingAppeals = false;
     },
 
     handlePageChange(page) {
@@ -175,27 +140,21 @@ export default {
       this.fetchAppeals();
     },
 
-    handleSearchPremiseUpdate(searchPremise) {
-      this.searchPremise = searchPremise;
-      this.fetchPremises();
-    },
-
     openCreateModal() {
-      //   this.selectedAppealId = null;
-      //   this.showModal = true;
+      this.selectedAppealId = null;
+      this.showAppealModal = true;
     },
-    // openEditModal(id) {
-    //   this.selectedAppealId = id;
-    //   this.showModal = true;
-    // },
-    // closeModal() {
-    //   this.showModal = false;
-    //   this.fetchAppeals();
-    // },
+    openEditModal(id) {
+      this.selectedAppealId = id;
+      this.showAppealModal = true;
+    },
+    closeModal() {
+      this.showAppealModal = false;
+      this.fetchAppeals();
+    },
   },
   mounted() {
     this.fetchAppeals();
-    this.fetchPremises();
   },
 };
 </script>
@@ -247,4 +206,16 @@ export default {
 
     &-pagination
       margin-left: auto
+
+  &__appeal-modal
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background-color: rgba(0, 0, 0, 0.25)
+    justify-content: center
+    align-items: center
+    z-index: 1000
+    transition: opacity 0.3s ease
 </style>
