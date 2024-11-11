@@ -36,7 +36,7 @@ export default {
 .btn
   font-family: $font-family-secondary
   background-color: $color-primary
-  color: $color-background-primary
+  color: $color-text-secondary
   border: none
   cursor: pointer
   width: 100%
