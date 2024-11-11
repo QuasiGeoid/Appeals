@@ -1,12 +1,12 @@
 <template>
   <div class="base-pagination">
-    <PageNavButton
+    <NavButton
       type="first"
       :disabled="currentPage === 1"
       @click="goToPage(1)"
     />
 
-    <PageNavButton
+    <NavButton
       type="prev"
       :disabled="currentPage === 1"
       @click="goToPage(currentPage - 1)"
@@ -37,13 +37,13 @@
       >{{ totalPages }}
     </PageButton>
 
-    <PageNavButton
+    <NavButton
       type="next"
       :disabled="currentPage === totalPages"
       @click="goToPage(currentPage + 1)"
     />
 
-    <PageNavButton
+    <NavButton
       type="last"
       :disabled="currentPage === totalPages"
       @click="goToPage(totalPages)"
@@ -52,11 +52,11 @@
 </template>
 
 <script>
-import { PageButton, PageNavButton } from "@/components/Buttons";
+import { PageButton, NavButton } from "@/components/Buttons";
 
 export default {
   name: "BasePagination",
-  components: { PageButton, PageNavButton },
+  components: { PageButton, NavButton },
   props: {
     currentPage: {
       type: Number,

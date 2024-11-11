@@ -1,12 +1,12 @@
 <template>
-  <button class="page-nav-button" @click="handleClick" :disabled="disabled">
+  <button class="nav-button" @click="handleClick" :disabled="disabled">
     {{ label }}
   </button>
 </template>
 
 <script>
 export default {
-  name: "PageNavButton",
+  name: "NavButton",
   props: {
     type: {
       type: String,
@@ -45,7 +45,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.page-nav-button
+.nav-button
   font: $font-secondary
   padding: 8px 12px
   border: none
