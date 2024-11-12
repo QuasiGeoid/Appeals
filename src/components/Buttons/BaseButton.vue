@@ -54,10 +54,10 @@ export default {
     border-radius: 4px
 
   &:hover
-    background-color: darken($color-primary, 10%)
+    background-color: $color-button-hover
 
   &:active
-    background-color: darken($color-primary, 15%)
+    background-color: $color-button-active
 
   &[disabled]
     +disabled
