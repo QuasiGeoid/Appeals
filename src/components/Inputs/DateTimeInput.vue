@@ -1,5 +1,5 @@
 <template>
-  <div class="date-time-input">
+  <div class="date-time-input" ref="dateTimeInput">
     <BaseInput
       :id="id"
       :label="label"
@@ -11,12 +11,14 @@
       @focus="onInputFocus"
       :disabled="disabled"
     />
-    <BaseDatepicker
-      class="date-time-input__calendar"
-      v-show="isCalendarOpen"
-      v-model="selectedDate"
-      @close="onDatepickerClose"
-    />
+    <transition name="date-time-input__datepicker-transition">
+      <BaseDatepicker
+        class="date-time-input__datepicker"
+        v-show="isCalendarOpen"
+        v-model="selectedDate"
+        @close="onDatepickerClose"
+      />
+    </transition>
   </div>
 </template>
 
@@ -71,6 +73,19 @@ export default {
       this.isCalendarOpen = false;
       this.disabled = false;
     },
+    closeDatePicker(event) {
+      const dateTimeInput = this.$refs.dateTimeInput;
+      if (!dateTimeInput.contains(event.target)) {
+        this.isCalendarOpen = false;
+        this.disabled = false;
+      }
+    },
+  },
+  mounted() {
+    document.addEventListener("mousedown", this.closeDatePicker);
+  },
+  beforeDestroy() {
+    document.removeEventListener("mousedown", this.closeDatePicker);
   },
 };
 </script>
@@ -80,6 +95,9 @@ export default {
   position: relative
   width: 100%
 
-  &__calendar
+  &__datepicker
     position: absolute
+
+    &-transition
+      +fade-transition
 </style>

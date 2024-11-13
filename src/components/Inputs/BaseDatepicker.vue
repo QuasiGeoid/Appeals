@@ -1,6 +1,5 @@
 <template>
   <div class="base-datepicker">
-    <CloseButton @click="$emit('close')" />
     <div class="base-datepicker__year-month">
       <NavButton type="prev" @click="onPreviousClick" />
       <span class="base-datepicker__year-month-label">{{
@@ -39,12 +38,12 @@
   </div>
 </template>
 <script>
-import { NavButton, CloseButton } from "@/components/Buttons";
+import { NavButton } from "@/components/Buttons";
 import { BaseInput } from ".";
 
 export default {
   name: "BaseDatepicker",
-  components: { NavButton, BaseInput, CloseButton },
+  components: { NavButton, BaseInput },
   props: {
     value: {
       type: Date,
@@ -157,6 +156,7 @@ export default {
 </script>
 <style lang="sass" scoped>
 .base-datepicker
+  transition: opacity 0.3s ease
   display: flex
   flex-direction: column
   justify-content: center
