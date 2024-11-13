@@ -1,4 +1,6 @@
 export { default as BaseInput } from "./BaseInput.vue";
+export { default as BaseDatepicker } from "./BaseDatepicker.vue";
+export { default as DateTimeInput } from "./DateTimeInput.vue";
 export { default as DropCompleteInput } from "./DropCompleteInput.vue";
 export { default as FilterInput } from "./FilterInput.vue";
 export { default as LoginInput } from "./LoginInput.vue";

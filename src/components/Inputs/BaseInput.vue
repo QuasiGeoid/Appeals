@@ -3,13 +3,16 @@
     <label v-if="label" :for="id" class="base-input__label">{{ label }}</label>
     <div class="base-input__container">
       <input
+        ref="input"
         :id="id"
         :type="type"
-        :value="value"
+        v-model="localValue"
         :placeholder="placeholder"
-        @input="$emit('input', $event.target.value)"
+        :disabled="disabled"
+        @input="handleInput"
         @focus="$emit('focus')"
         @blur="$emit('blur')"
+        @click="$emit('click')"
         :class="['base-input__field', `base-input__field_size-${size}`]"
       />
       <span v-if="error" class="base-input__error">{{ error }}</span>
@@ -37,6 +40,26 @@ export default {
         return ["s", "m", "h"].includes(value);
       },
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data() {
+    return {
+      localValue: this.value,
+    };
+  },
+  methods: {
+    handleInput(event) {
+      this.localValue = event?.target?.value || "";
+      this.$emit("input", this.localValue);
+    },
+  },
+  watch: {
+    value(newValue) {
+      this.localValue = newValue;
+    },
   },
 };
 </script>
@@ -44,6 +67,7 @@ export default {
 <style lang="sass" scoped>
 .base-input
   width: 100%
+  position: relative
 
   &__label
     color: $color-primary
