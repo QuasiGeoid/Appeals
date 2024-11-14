@@ -65,7 +65,7 @@
     </div>
     <AppealModal
       class="appeals-list-page__appeal-modal"
-      v-if="showAppealModal"
+      :show="showAppealModal"
       :appealId="selectedAppealId"
       @close="closeModal"
     />
@@ -153,7 +153,7 @@ export default {
       this.fetchAppeals();
     },
   },
-  mounted() {
+  created() {
     this.fetchAppeals();
   },
 };
@@ -206,16 +206,4 @@ export default {
 
     &-pagination
       margin-left: auto
-
-  &__appeal-modal
-    position: fixed
-    top: 0
-    left: 0
-    width: 100%
-    height: 100%
-    background-color: rgba(0, 0, 0, 0.25)
-    justify-content: center
-    align-items: center
-    z-index: 1000
-    transition: opacity 0.3s ease
 </style>
