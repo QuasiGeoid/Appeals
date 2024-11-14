@@ -50,7 +50,6 @@ export default {
   },
   methods: {
     fetchApartments: debounce(async function () {
-      console.log("here");
       if (!this.localPremiseId) return;
 
       const params = {
