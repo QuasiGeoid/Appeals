@@ -5,7 +5,7 @@
       label="Логин или Телефон"
       id="login"
       type="text"
-      :value="value"
+      v-model="localValue"
       @input="$emit('input', $event)"
     />
   </div>
@@ -23,6 +23,7 @@ export default {
   },
   data() {
     return {
+      localValue: this.value,
       path: mdiPhone,
     };
   },
