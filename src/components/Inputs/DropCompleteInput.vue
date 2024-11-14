@@ -10,19 +10,22 @@
       @blur="closeDropdown"
       class="drop-complete__input"
     />
-    <ul v-if="showDropdown" class="drop-complete__dropdown">
-      <li v-if="loading" class="drop-complete__loading">Поиск...</li>
-      <li v-else-if="!options.length">Ничего не найдено</li>
-      <li
-        v-else
-        v-for="option in options"
-        :key="option.value"
-        @click="selectOption(option)"
-        class="drop-complete__option"
-      >
-        {{ option.label }}
-      </li>
-    </ul>
+    <FadeTransition>
+      <ul v-if="showDropdown" class="drop-complete__dropdown">
+        <li v-if="loading" class="drop-complete__loading">Поиск...</li>
+        <li v-else-if="!options.length">Ничего не найдено</li>
+        <template v-else>
+          <li
+            v-for="option in options"
+            :key="option.value"
+            @click="selectOption(option)"
+            class="drop-complete__option"
+          >
+            {{ option.label }}
+          </li>
+        </template>
+      </ul>
+    </FadeTransition>
     <div
       class="drop-complete__container-icon"
       @click="showDropdown = !showDropdown"
@@ -39,10 +42,11 @@
 <script>
 import { BaseInput } from "@/components/Inputs";
 import { mdiMenuDown } from "@mdi/js";
+import { FadeTransition } from "@/components/Transitions";
 
 export default {
   name: "DropCompleteInput",
-  components: { BaseInput },
+  components: { BaseInput, FadeTransition },
   props: {
     options: {
       type: Array,

@@ -11,23 +11,24 @@
       @focus="onInputFocus"
       :disabled="disabled"
     />
-    <transition name="date-time-input__datepicker-transition">
+    <FadeTransition>
       <BaseDatepicker
         class="date-time-input__datepicker"
         v-show="isCalendarOpen"
         v-model="selectedDate"
         @close="onDatepickerClose"
       />
-    </transition>
+    </FadeTransition>
   </div>
 </template>
 
 <script>
 import { BaseInput, BaseDatepicker } from ".";
+import { FadeTransition } from "@/components/Transitions";
 
 export default {
   name: "DateTimeInput",
-  components: { BaseInput, BaseDatepicker },
+  components: { BaseInput, BaseDatepicker, FadeTransition },
   props: {
     value: Date,
     label: String,
@@ -97,7 +98,4 @@ export default {
 
   &__datepicker
     position: absolute
-
-    &-transition
-      +fade-transition
 </style>
