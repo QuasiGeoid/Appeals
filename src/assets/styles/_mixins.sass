@@ -15,12 +15,3 @@
 = disabled
   background-color: $color-disabled
   cursor: default
-
-= fade-transition($duration: 0.5s, $timing-function: ease)
-  &-enter-active,
-  &-leave-active
-    transition: opacity $duration $timing-function
-
-  &-enter,
-  &-leave-to
-    opacity: 0
