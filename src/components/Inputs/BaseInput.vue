@@ -2,11 +2,12 @@
   <div class="base-input">
     <label v-if="label" :for="id" class="base-input__label">{{ label }}</label>
     <div class="base-input__container">
-      <input
+      <component
+        :is="inputType"
         ref="input"
         :id="id"
         :type="type"
-        v-model="localValue"
+        :value="localValue"
         :placeholder="placeholder"
         :disabled="disabled"
         @input="handleInput"
@@ -50,15 +51,15 @@ export default {
       localValue: this.value,
     };
   },
+  computed: {
+    inputType() {
+      return this.type === "textarea" ? "textarea" : "input";
+    },
+  },
   methods: {
     handleInput(event) {
       this.localValue = event?.target?.value || "";
       this.$emit("input", this.localValue);
-    },
-  },
-  watch: {
-    value(newValue) {
-      this.localValue = newValue;
     },
   },
 };
