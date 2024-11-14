@@ -6,6 +6,7 @@ import {
   login as apiLogin,
   fetchPremises as apiFetchPremises,
   fetchApartments as apiFetchApartments,
+  createAppeal as apiCreateAppeal,
 } from "@/api";
 
 Vue.use(Vuex);
@@ -91,6 +92,10 @@ export default new Vuex.Store({
       const params = { search, premise_id };
       const response = await apiFetchApartments(params);
       commit("setApartments", response);
+    },
+
+    async createAppeal(appealData) {
+      await apiCreateAppeal(appealData);
     },
   },
 });
