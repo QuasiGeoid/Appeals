@@ -62,6 +62,11 @@ export default {
       this.$emit("input", this.localValue);
     },
   },
+  watch: {
+    value(newVal) {
+      this.localValue = newVal;
+    },
+  },
 };
 </script>
 
