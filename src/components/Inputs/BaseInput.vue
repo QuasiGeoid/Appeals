@@ -10,11 +10,16 @@
         :value="localValue"
         :placeholder="placeholder"
         :disabled="disabled"
+        rows="5"
         @input="handleInput"
         @focus="$emit('focus')"
         @blur="$emit('blur')"
         @click="$emit('click')"
-        :class="['base-input__field', `base-input__field_size-${size}`]"
+        :class="[
+          'base-input__field',
+          `base-input__field_size-${size}`,
+          { 'base-input__field_textarea': inputType === 'textarea' },
+        ]"
       />
       <span v-if="error" class="base-input__error">{{ error }}</span>
     </div>
@@ -103,4 +108,8 @@ export default {
 
     &_size-m
       padding: $padding-input-size-m
+
+    &_textarea
+      resize: none
+      line-height: 1.5
 </style>
