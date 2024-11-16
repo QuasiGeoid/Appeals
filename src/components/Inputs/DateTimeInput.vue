@@ -14,8 +14,9 @@
     <FadeTransition>
       <BaseDatepicker
         class="date-time-input__datepicker"
-        v-show="isCalendarOpen"
+        v-if="isCalendarOpen"
         v-model="selectedDate"
+        @input="$emit('input', selectedDate)"
         @close="onDatepickerClose"
       />
     </FadeTransition>
@@ -80,6 +81,10 @@ export default {
         this.isCalendarOpen = false;
         this.disabled = false;
       }
+    },
+    updateDate() {
+      console.log("updateDate");
+      this.$emit("input", this.selectedDate);
     },
   },
   mounted() {
