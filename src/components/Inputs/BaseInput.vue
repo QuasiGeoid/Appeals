@@ -1,6 +1,10 @@
 <template>
   <div class="base-input">
-    <label v-if="label" :for="id" class="base-input__label">{{ label }}</label>
+    <label
+      :for="id"
+      :class="['base-input__label', { 'base-input__label_hidden': !showLabel }]"
+      >{{ labelVisibility === "onFocus" ? placeholder : label }}</label
+    >
     <div class="base-input__container">
       <component
         :is="inputType"
@@ -8,12 +12,12 @@
         :id="id"
         :type="type"
         :value="localValue"
-        :placeholder="placeholder"
+        :placeholder="!focused && placeholder"
         :disabled="disabled"
-        rows="5"
-        @input="handleInput"
-        @focus="$emit('focus')"
-        @blur="$emit('blur')"
+        rows="4"
+        @input="onInput"
+        @focus="onFocus"
+        @blur="onBlur"
         @click="$emit('click')"
         :class="[
           'base-input__field',
@@ -31,6 +35,13 @@ export default {
   name: "BaseInput",
   props: {
     label: String,
+    labelVisibility: {
+      type: String,
+      default: "onFocus",
+      validator(value) {
+        return ["hidden", "visible", "onFocus"].includes(value);
+      },
+    },
     id: String,
     value: String,
     type: {
@@ -54,17 +65,36 @@ export default {
   data() {
     return {
       localValue: this.value,
+      focused: false,
     };
   },
   computed: {
     inputType() {
       return this.type === "textarea" ? "textarea" : "input";
     },
+    showLabel() {
+      if (this.labelVisibility === "hidden") return false;
+      if (this.labelVisibility === "visible") return true;
+      return (
+        (this.labelVisibility === "onFocus" &&
+          this.placeholder &&
+          this.focused) ||
+        this.localValue
+      );
+    },
   },
   methods: {
-    handleInput(event) {
+    onInput(event) {
       this.localValue = event?.target?.value || "";
       this.$emit("input", this.localValue);
+    },
+    onFocus() {
+      this.$emit("focus");
+      this.focused = true;
+    },
+    onBlur() {
+      this.$emit("blur");
+      this.focused = false;
     },
   },
   watch: {
@@ -85,8 +115,12 @@ export default {
     font: $font-secondary
     font-size: 0.75rem
     text-align: left
-    display: block
-    margin-bottom: 16px
+    margin-bottom: 1rem
+    transition: 0.3s ease
+    opacity: 1
+
+    &_hidden
+      opacity: 0
 
   &__container
     height: 100%
@@ -111,5 +145,6 @@ export default {
 
     &_textarea
       resize: none
+      box-sizing: border-box
       line-height: 1.5
 </style>
