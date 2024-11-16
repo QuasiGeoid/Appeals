@@ -3,6 +3,7 @@
     <SvgIcon type="mdi" :path="path" class="login-input__icon"></SvgIcon>
     <BaseInput
       label="Логин или Телефон"
+      label-visibility="visible"
       id="login"
       type="text"
       v-model="localValue"
