@@ -1,17 +1,17 @@
 <template>
   <div class="drop-complete">
     <BaseInput
+      ref="input"
       v-model="searchTerm"
       type="text"
       :placeholder="placeholder"
       size="m"
       @input="inputUpdate"
       @focus="showDropdown = true"
-      @blur="closeDropdown"
       class="drop-complete__input"
     />
     <FadeTransition>
-      <ul v-if="showDropdown" class="drop-complete__dropdown">
+      <ul v-if="showDropdown" class="drop-complete__dropdown" ref="dropDown">
         <li v-if="loading" class="drop-complete__loading">Поиск...</li>
         <li v-else-if="!options.length">Ничего не найдено</li>
         <template v-else>
@@ -95,6 +95,24 @@ export default {
         this.showDropdown = false;
       }, 200);
     },
+    onMouseDownClick(event) {
+      console.log("onMouseDownClick");
+      const input = this.$refs.input.$el;
+      const dropDown = this.$refs.dropDown;
+      if (
+        dropDown &&
+        !dropDown.contains(event.target) &&
+        !input.contains(event.target)
+      ) {
+        this.closeDropdown();
+      }
+    },
+  },
+  mounted() {
+    document.addEventListener("mousedown", this.onMouseDownClick);
+  },
+  beforeDestroy() {
+    document.removeEventListener("mousedown", this.onMouseDownClick);
   },
 };
 </script>
@@ -134,8 +152,8 @@ export default {
     &-icon
       cursor: pointer
       position: absolute
-      top: 0
-      right: 1rem
+      top: 35%
+      right: 5%
       transform: scale(1.2)
       color: $color-placeholder
 </style>
