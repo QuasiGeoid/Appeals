@@ -1,7 +1,8 @@
 <template>
   <BaseModal :show="show" @close="handleClose" class="appeal-modal">
     <h2>{{ header }}</h2>
-    <form @submit.prevent="submitAppeal" class="appeal-modal__form">
+    <LoadingSpinner v-if="creatingAppeal" class="appeal-modal__spinner" />
+    <form v-else @submit.prevent="submitAppeal" class="appeal-modal__form">
       <div class="appeal-modal__row">
         <PremiseDropCompleteInput
           class="appeal-modal__input"
@@ -15,12 +16,9 @@
         <DateTimeInput v-model="dueDate" />
       </div>
       <div class="appeal-modal__row">
-        <BaseInput
-          v-for="(field, index) in applicantNameFields"
-          v-model="field.model"
-          :key="index"
-          :placeholder="field.label"
-        />
+        <BaseInput v-model="lastName" placeholder="Фамилия" />
+        <BaseInput v-model="firstName" placeholder="Имя" />
+        <BaseInput v-model="patronymicName" placeholder="Отчество" />
         <BaseInput placeholder="Телефон" type="tel" v-model="phone" />
       </div>
       <BaseInput
@@ -39,7 +37,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import { BaseModal } from "@/components/Modals";
 import {
   ApartmentDropCompleteInput,
@@ -48,6 +45,8 @@ import {
   PremiseDropCompleteInput,
 } from "@/components/Inputs";
 import { BaseButton } from "@/components/Buttons";
+import { formatDateToISO } from "@/utils/utils";
+import { LoadingSpinner } from "@/components/Loading";
 
 export default {
   name: "AppealModal",
@@ -58,6 +57,7 @@ export default {
     BaseButton,
     DateTimeInput,
     PremiseDropCompleteInput,
+    LoadingSpinner,
   },
   props: {
     show: {
@@ -71,6 +71,7 @@ export default {
   },
   data() {
     return {
+      creatingAppeal: false,
       localAppeal: this.appeal,
       TYPES: ["new", "edit"],
       premiseId: this.appeal?.premise?.id,
@@ -84,7 +85,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["premiseSelectList", "apartmentSelectList"]),
     type() {
       return this.appeal ? this.TYPES[1] : this.TYPES[0];
     },
@@ -93,46 +93,37 @@ export default {
         ? "Создание заявки"
         : `Заявка № ${this.appeal.number}`;
     },
-    applicantNameFields() {
-      return [
-        {
-          label: "Фамилия",
-          get model() {
-            return this.lastName;
-          },
-          set model(value) {
-            this.lastName = value;
-          },
-        },
-        {
-          label: "Имя",
-          get model() {
-            return this.firstName;
-          },
-          set model(value) {
-            this.firstName = value;
-          },
-        },
-        {
-          label: "Отчество",
-          get model() {
-            return this.patronymicName;
-          },
-          set model(value) {
-            this.patronymicName = value;
-          },
-        },
-      ];
-    },
     buttonLabel() {
       return this.type === this.TYPES[0] ? "Создать" : "Сохранить";
+    },
+    isButtonDisabled() {
+      return false;
     },
   },
   methods: {
     handleClose() {
       this.$emit("close");
     },
-    submitAppeal() {},
+    submitAppeal() {
+      this.creatingAppeal = true;
+      const reqBody = {
+        premise_id: this.premiseId,
+        apartment_id: this.apartmentId,
+        applicant: {
+          last_name: this.lastName,
+          first_name: this.firstName,
+          patronymic_name: this.patronymicName,
+          username: this.phone,
+        },
+        description: this.description,
+        due_date: formatDateToISO(this.dueDate),
+      };
+      console.log(reqBody);
+      // await this.$store.dispatch("createAppeal", reqBody);
+      setTimeout(() => {
+        this.creatingAppeal = false;
+      }, 10000);
+    },
   },
 };
 </script>
@@ -143,7 +134,7 @@ export default {
 
   &__form
     display: flex
-    gap: 1rem
+    gap: 2rem
     flex-direction: column
 
   &__row
@@ -154,4 +145,7 @@ export default {
 
   &__button
     margin-left: auto
+
+  &__spinner
+    height: 100%
 </style>

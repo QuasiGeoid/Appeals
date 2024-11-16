@@ -19,6 +19,7 @@ export default new Vuex.Store({
     premises: null,
     apartments: null,
     loginError: null,
+    appealError: null,
   },
   getters: {
     isAuthenticated: (state) => !!state.token,
@@ -50,6 +51,9 @@ export default new Vuex.Store({
     },
     setLoginError(state, loginError) {
       state.loginError = loginError;
+    },
+    setAppealError(state, appealError) {
+      state.appealError = appealError;
     },
     resetState(state) {
       Object.keys(state).forEach((key) => {
@@ -94,8 +98,13 @@ export default new Vuex.Store({
       commit("setApartments", response);
     },
 
-    async createAppeal(appealData) {
-      await apiCreateAppeal(appealData);
+    async createAppeal({ commit }, appealData) {
+      commit("setAppealError", null);
+      try {
+        await apiCreateAppeal({ ...appealData, status_id: 1 });
+      } catch (e) {
+        commit("setAppealError", e);
+      }
     },
   },
 });
