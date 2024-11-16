@@ -15,6 +15,37 @@ export function convertDate(dateString, includeTime = false, locale = "ru-RU") {
   return includeTime ? `${formattedDate} ${formattedTime}` : formattedDate;
 }
 
+export function formatDateToISO(date) {
+  if (!(date instanceof Date)) return "";
+
+  const tzOffset = -date.getTimezoneOffset(); // Timezone offset in minutes
+  const sign = tzOffset >= 0 ? "+" : "-";
+  const pad = (num) => String(num).padStart(2, "0");
+
+  const offsetHours = Math.floor(Math.abs(tzOffset) / 60);
+  const offsetMinutes = Math.abs(tzOffset) % 60;
+
+  return (
+    date.getFullYear() +
+    "-" +
+    pad(date.getMonth() + 1) +
+    "-" +
+    pad(date.getDate()) +
+    "T" +
+    pad(date.getHours()) +
+    ":" +
+    pad(date.getMinutes()) +
+    ":" +
+    pad(date.getSeconds()) +
+    "." +
+    String(date.getMilliseconds()).padStart(3, "0") +
+    sign +
+    pad(offsetHours) +
+    ":" +
+    pad(offsetMinutes)
+  );
+}
+
 export function sortByField(arr, field, order = "asc") {
   const getValue = (obj, path) =>
     path.split(".").reduce((acc, key) => (acc ? acc[key] : undefined), obj);
