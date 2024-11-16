@@ -114,12 +114,11 @@ export default {
     min-width: 100%
     width: 100%
     .input-group
-      margin-bottom: 16px
+      margin-bottom: 1rem
 
   &__input
-    min-width: 100%
     &:not(:last-child)
-      margin-bottom: 32px
+      margin-bottom: 1.5rem
 
   &__footer
     display: flex
