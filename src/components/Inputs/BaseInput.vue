@@ -24,7 +24,9 @@
           `base-input__field_size-${size}`,
           { 'base-input__field_textarea': inputType === 'textarea' },
         ]"
-      />
+      >
+        <template v-if="inputType === 'textarea'">{{ localValue }}</template>
+      </component>
       <span v-if="error" class="base-input__error">{{ error }}</span>
     </div>
   </div>
