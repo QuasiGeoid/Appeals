@@ -83,7 +83,6 @@ export default {
       }
     },
     updateDate() {
-      console.log("updateDate");
       this.$emit("input", this.selectedDate);
     },
   },

@@ -24,7 +24,8 @@
               'base-datepicker__day',
               {
                 'base-datepicker__day_empty': !d.date,
-                'base-datepicker__day_selected': day === d.date,
+                'base-datepicker__day_selected':
+                  selectedDate.getDate() === d.date,
               },
             ]"
             @click="d.date && onClickDay(d.date)"
@@ -47,7 +48,6 @@ export default {
   props: {
     value: {
       type: Date,
-      default: () => new Date(),
     },
   },
   data() {
@@ -67,13 +67,12 @@ export default {
         "Декабрь",
       ],
       daysOfWeek: ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"],
-      selectedDate: new Date(this.value),
-      day: this.value.getDate(),
+      selectedDate: this.value ? new Date(this.value) : new Date(),
     };
   },
   computed: {
     yearMonthLabel() {
-      const year = this.value.getFullYear();
+      const year = this.selectedDate.getFullYear();
       const month = this.monthLabels[this.selectedDate.getMonth()];
       return `${year} ${month}`;
     },
