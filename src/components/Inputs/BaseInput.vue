@@ -6,27 +6,19 @@
       >{{ labelVisibility === "onFocus" ? placeholder : label }}</label
     >
     <div class="base-input__container">
-      <component
-        :is="inputType"
+      <input
         ref="input"
         :id="id"
         :type="type"
-        :value="localValue"
+        v-model="localValue"
         :placeholder="!focused && placeholder"
         :disabled="disabled"
-        rows="4"
         @input="onInput"
         @focus="onFocus"
         @blur="onBlur"
         @click="$emit('click')"
-        :class="[
-          'base-input__field',
-          `base-input__field_size-${size}`,
-          { 'base-input__field_textarea': inputType === 'textarea' },
-        ]"
-      >
-        <template v-if="inputType === 'textarea'">{{ localValue }}</template>
-      </component>
+        :class="['base-input__field', `base-input__field_size-${size}`]"
+      />
       <span v-if="error" class="base-input__error">{{ error }}</span>
     </div>
   </div>
@@ -71,9 +63,6 @@ export default {
     };
   },
   computed: {
-    inputType() {
-      return this.type === "textarea" ? "textarea" : "input";
-    },
     showLabel() {
       if (this.labelVisibility === "hidden") return false;
       if (this.labelVisibility === "visible") return true;
@@ -81,7 +70,9 @@ export default {
         (this.labelVisibility === "onFocus" &&
           this.placeholder &&
           this.focused) ||
-        this.localValue
+        (this.localValue !== undefined &&
+          this.localValue !== null &&
+          this.localValue !== "")
       );
     },
   },
@@ -144,9 +135,4 @@ export default {
 
     &_size-m
       padding: $padding-input-size-m
-
-    &_textarea
-      resize: none
-      box-sizing: border-box
-      line-height: 1.5
 </style>
