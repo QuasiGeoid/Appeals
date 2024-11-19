@@ -46,7 +46,7 @@ export default {
   methods: {
     prettyPhoneNumber(value) {
       return value
-        .replace(/^(\+7)(\d{3})(\d{3})(\d{2})(\d{2})$/, "$1 $2 $3 $4 $5") // Format +7 XXX XXX XX XX
+        .replace(/^(7)(\d{3})(\d{3})(\d{2})(\d{2})$/, "+$1 $2 $3 $4 $5") // Format +7 XXX XXX XX XX
         .trim();
     },
   },
