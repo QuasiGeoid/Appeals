@@ -41,17 +41,19 @@ export default {
   },
   methods: {
     fetchPremises: debounce(async function () {
+      this.loadingPremises = true;
       const params = {
         search: this.searchPremise,
       };
-      this.loadingPremises = true;
       await this.$store.dispatch("fetchPremises", params);
       this.loadingPremises = false;
     }, DEBOUNCE_DELAY),
+
     handleSearchPremiseUpdate(searchTerm) {
       this.searchPremise = searchTerm;
       this.fetchPremises();
     },
+
     selectPremise(premiseId) {
       this.$emit("input", premiseId);
     },

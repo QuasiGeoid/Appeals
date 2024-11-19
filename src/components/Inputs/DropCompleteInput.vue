@@ -4,11 +4,12 @@
       ref="input"
       v-model="searchTerm"
       type="text"
-      :placeholder="placeholder"
+      :placeholder="loading ? `${placeholder} загрузка данных...` : placeholder"
       size="m"
       @input="inputUpdate"
       @focus="showDropdown = true"
       class="drop-complete__input"
+      @disabled="loading"
     />
     <FadeTransition>
       <ul v-if="showDropdown" class="drop-complete__dropdown" ref="dropDown">
@@ -72,12 +73,26 @@ export default {
       iconPath: mdiMenuDown,
     };
   },
-  watch: {
-    value(newVal) {
+  computed: {
+    selectedLabel() {
       const selectedOption = this.options.find(
-        (option) => option.value === newVal
+        (option) => option.value === this.value
       );
-      this.searchTerm = selectedOption ? selectedOption.label : "";
+      return selectedOption ? selectedOption.label : "";
+    },
+  },
+  watch: {
+    value: {
+      immediate: true,
+      handler() {
+        this.searchTerm = this.selectedLabel;
+      },
+    },
+    options: {
+      immediate: true,
+      handler() {
+        this.searchTerm = this.selectedLabel;
+      },
     },
   },
   methods: {
@@ -96,7 +111,6 @@ export default {
       }, 200);
     },
     onMouseDownClick(event) {
-      console.log("onMouseDownClick");
       const input = this.$refs.input.$el;
       const dropDown = this.$refs.dropDown;
       if (

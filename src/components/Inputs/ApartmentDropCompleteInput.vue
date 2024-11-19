@@ -40,30 +40,40 @@ export default {
     ...mapGetters(["apartmentSelectList"]),
   },
   watch: {
-    value(newVal) {
-      this.apartmentId = newVal;
+    value: {
+      immediate: true,
+      handler(newVal) {
+        this.apartmentId = newVal;
+      },
     },
-    premiseId(newVal) {
-      this.localPremiseId = newVal;
-      this.fetchApartments();
+    premiseId: {
+      immediate: true,
+      handler(newVal) {
+        this.localPremiseId = newVal;
+        this.fetchApartments();
+      },
     },
   },
   methods: {
     fetchApartments: debounce(async function () {
-      if (!this.localPremiseId) return;
+      if (!this.localPremiseId) {
+        return;
+      }
+      this.loadingApartments = true;
 
       const params = {
         premise_id: this.localPremiseId,
         search: this.searchApartment,
       };
-      this.loadingApartments = true;
       await this.$store.dispatch("fetchApartments", params);
       this.loadingApartments = false;
     }, DEBOUNCE_DELAY),
+
     handleSearchApartmentUpdate(searchTerm) {
       this.searchApartment = searchTerm;
       this.fetchApartments();
     },
+
     selectApartment(apartmentId) {
       this.$emit("input", apartmentId);
     },
