@@ -19,7 +19,7 @@
         <BaseInput v-model="lastName" placeholder="Фамилия" />
         <BaseInput v-model="firstName" placeholder="Имя" />
         <BaseInput v-model="patronymicName" placeholder="Отчество" />
-        <BaseInput placeholder="Телефон" type="tel" v-model="phone" />
+        <PhoneInput v-model="phone" />
       </div>
       <BaseInput
         placeholder="Описание заявки"
@@ -42,6 +42,7 @@ import {
   ApartmentDropCompleteInput,
   BaseInput,
   DateTimeInput,
+  PhoneInput,
   PremiseDropCompleteInput,
 } from "@/components/Inputs";
 import { BaseButton } from "@/components/Buttons";
@@ -58,6 +59,7 @@ export default {
     DateTimeInput,
     PremiseDropCompleteInput,
     LoadingSpinner,
+    PhoneInput,
   },
   props: {
     show: {
