@@ -89,7 +89,7 @@ export default {
   position: relative
 
   &__select
-    +input-field
+    +base-field
     position: relative
     z-index: 2
     background-color: transparent !important

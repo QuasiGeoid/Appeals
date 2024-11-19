@@ -1,4 +1,4 @@
-= input-field
+= base-field
   font: $font-secondary
   color: $color-text-primary
   background-color: $color-background-primary
@@ -6,6 +6,18 @@
     bottom: $border-bottom-input
   &:focus
     outline: none
+
+= input-field
+  width: 100%
+  &::placeholder
+    color: $color-placeholder
+    opacity: 1 // Firefox
+  &::-ms-input-placeholder // Edge 12 -18
+    color: $color-placeholder
+  &_size-s
+    padding: $padding-input-size-s
+  &_size-m
+    padding: $padding-input-size-m
   
 = input-icon
   color: #757575

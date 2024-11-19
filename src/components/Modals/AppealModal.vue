@@ -21,11 +21,7 @@
         <BaseInput v-model="patronymicName" placeholder="Отчество" />
         <PhoneInput v-model="phone" />
       </div>
-      <BaseInput
-        placeholder="Описание заявки"
-        type="textarea"
-        v-model="description"
-      />
+      <BaseTextArea placeholder="Описание заявки" v-model="description" />
       <BaseButton
         type="submit"
         :disabled="isButtonDisabled"
@@ -41,6 +37,7 @@ import { BaseModal } from "@/components/Modals";
 import {
   ApartmentDropCompleteInput,
   BaseInput,
+  BaseTextArea,
   DateTimeInput,
   PhoneInput,
   PremiseDropCompleteInput,
@@ -56,6 +53,7 @@ export default {
     BaseModal,
     BaseInput,
     BaseButton,
+    BaseTextArea,
     DateTimeInput,
     PremiseDropCompleteInput,
     LoadingSpinner,

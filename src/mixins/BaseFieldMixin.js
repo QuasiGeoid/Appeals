@@ -1,4 +1,7 @@
+import BaseField from "@/components/Inputs/BaseField.vue";
+
 export default {
+  components: { BaseField },
   props: {
     label: String,
     labelVisibility: {
@@ -42,6 +45,9 @@ export default {
           this.localValue !== null &&
           this.localValue !== "")
       );
+    },
+    computedLabel() {
+      return this.labelVisibility === "onFocus" ? this.placeholder : this.label;
     },
   },
   methods: {
