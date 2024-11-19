@@ -56,7 +56,7 @@ export default {
       type: String,
       default: "s",
       validator(value) {
-        return ["s", "m", "h"].includes(value);
+        return ["s", "m"].includes(value);
       },
     },
     disabled: {

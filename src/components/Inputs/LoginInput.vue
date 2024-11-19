@@ -6,6 +6,7 @@
       label-visibility="visible"
       id="login"
       type="text"
+      size="m"
       v-model="localValue"
       @input="$emit('input', $event)"
     />

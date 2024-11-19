@@ -113,12 +113,9 @@ export default {
   &__form-body
     min-width: 100%
     width: 100%
-    .input-group
-      margin-bottom: 1rem
 
   &__input
-    &:not(:last-child)
-      margin-bottom: 1.5rem
+    margin-bottom: 0.5rem
 
   &__footer
     display: flex

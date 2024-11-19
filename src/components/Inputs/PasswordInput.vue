@@ -6,6 +6,7 @@
       :type="showPassword ? 'text' : 'password'"
       :value="value"
       :placeholder="'Пароль'"
+      size="m"
       @input="$emit('input', $event)"
     />
     <div @click="toggleShowPassword" class="password-input__icon-container">
