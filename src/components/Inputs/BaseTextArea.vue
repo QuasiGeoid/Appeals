@@ -1,25 +1,30 @@
 <template>
-  <div class="base-input">
+  <div class="base-textarea">
     <label
       :for="id"
-      :class="['base-input__label', { 'base-input__label_hidden': !showLabel }]"
-      >{{ labelVisibility === "onFocus" ? placeholder : label }}</label
+      :class="[
+        'base-textarea__label',
+        { 'base-textarea__label_hidden': !showLabel },
+      ]"
     >
-    <div class="base-input__container">
-      <input
-        ref="input"
+      {{ labelVisibility === "onFocus" ? placeholder : label }}
+    </label>
+    <div class="base-textarea__container">
+      <textarea
+        ref="textarea"
         :id="id"
-        :type="type"
         v-model="localValue"
         :placeholder="!focused && placeholder"
         :disabled="disabled"
+        :rows="rows"
+        :maxlength="maxlength"
+        :class="['base-textarea__field', `base-textarea__field_size-${size}`]"
         @input="onInput"
         @focus="onFocus"
         @blur="onBlur"
         @click="$emit('click')"
-        :class="['base-input__field', `base-input__field_size-${size}`]"
-      />
-      <span v-if="error" class="base-input__error">{{ error }}</span>
+      ></textarea>
+      <span v-if="error" class="base-textarea__error">{{ error }}</span>
     </div>
   </div>
 </template>
@@ -28,19 +33,23 @@
 import BaseFieldMixin from "@/mixins/BaseFieldMixin";
 
 export default {
-  name: "BaseInput",
+  name: "BaseTextarea",
   mixins: [BaseFieldMixin],
   props: {
-    type: {
-      type: String,
-      default: "text",
+    rows: {
+      type: Number,
+      default: 5,
+    },
+    maxlength: {
+      type: Number,
+      default: 500,
     },
   },
 };
 </script>
 
 <style lang="sass" scoped>
-.base-input
+.base-textarea
   width: 100%
   position: relative
 
@@ -62,14 +71,12 @@ export default {
   &__field
     +input-field
     width: 100%
+    resize: none
     &::placeholder
       color: $color-placeholder
       opacity: 1 // Firefox
     &::-ms-input-placeholder // Edge 12 -18
       color: $color-placeholder
-    &::-webkit-clear-button,
-    &::-webkit-search-cancel-button
-      display: none
 
     &_size-s
       padding: $padding-input-size-s
