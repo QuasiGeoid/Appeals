@@ -2,13 +2,11 @@
   <div class="login-input">
     <SvgIcon type="mdi" :path="path" class="login-input__icon"></SvgIcon>
     <BaseInput
-      label="Логин или Телефон"
-      label-visibility="visible"
+      placeholder="Логин или Телефон"
       id="login"
-      type="text"
       size="m"
       v-model="localValue"
-      @input="$emit('input', $event)"
+      @input="onInput"
     />
   </div>
 </template>
@@ -28,6 +26,16 @@ export default {
       localValue: this.value,
       path: mdiPhone,
     };
+  },
+  watch: {
+    value(newVal) {
+      this.localValue = newVal;
+    },
+  },
+  methods: {
+    onInput(value) {
+      this.$emit("input", value);
+    },
   },
 };
 </script>
