@@ -58,7 +58,7 @@ export const createAppeal = async (appealData) => {
 };
 
 export const updateAppeal = async (appealId, appealData) => {
-  return makeRequest("patch", `${ENDPOINTS.APPEALS}/${appealId}`, appealData);
+  return makeRequest("patch", `${ENDPOINTS.APPEALS}${appealId}/`, appealData);
 };
 
 export const fetchPremises = async (params = {}) => {

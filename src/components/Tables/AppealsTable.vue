@@ -31,7 +31,7 @@
       <tr v-for="appeal in sortedAppeals" :key="appeal.id">
         <td>
           <BaseButton
-            @click="$emit('cell-click', 'number', appeal.id)"
+            @click="$emit('cell-click', appeal.id)"
             class="appeals-table__appeal-btn"
           >
             {{ appeal.number }}

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="show" class="base-modal">
+  <div class="base-modal">
     <BaseOverlay @close="handleClose" />
     <div class="base-modal__content">
       <slot></slot>
@@ -13,12 +13,6 @@ import { BaseOverlay } from "@/components/common";
 export default {
   name: "BaseModal",
   components: { BaseOverlay },
-  props: {
-    show: {
-      type: Boolean,
-      default: false,
-    },
-  },
   methods: {
     handleClose() {
       this.$emit("close");

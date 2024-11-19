@@ -7,6 +7,7 @@ import {
   fetchPremises as apiFetchPremises,
   fetchApartments as apiFetchApartments,
   createAppeal as apiCreateAppeal,
+  updateAppeal as apiUpdateAppeal,
 } from "@/api";
 
 Vue.use(Vuex);
@@ -102,6 +103,14 @@ export default new Vuex.Store({
       commit("setAppealError", null);
       try {
         await apiCreateAppeal({ ...appealData, status_id: 1 });
+      } catch (e) {
+        commit("setAppealError", e);
+      }
+    },
+    async updateAppeal({ commit }, { appealId, appealData }) {
+      commit("setAppealError", null);
+      try {
+        await apiUpdateAppeal(appealId, appealData);
       } catch (e) {
         commit("setAppealError", e);
       }

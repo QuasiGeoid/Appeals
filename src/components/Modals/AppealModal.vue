@@ -1,7 +1,7 @@
 <template>
-  <BaseModal :show="show" @close="handleClose" class="appeal-modal">
+  <BaseModal @close="handleClose" class="appeal-modal">
     <h2>{{ header }}</h2>
-    <LoadingSpinner v-if="creatingAppeal" class="appeal-modal__spinner" />
+    <LoadingSpinner v-if="sendingAppeal" class="appeal-modal__spinner" />
     <form v-else @submit.prevent="submitAppeal" class="appeal-modal__form">
       <div class="appeal-modal__row">
         <PremiseDropCompleteInput
@@ -71,17 +71,17 @@ export default {
   },
   data() {
     return {
-      creatingAppeal: false,
+      sendingAppeal: false,
       localAppeal: this.appeal,
       TYPES: ["new", "edit"],
-      premiseId: this.appeal?.premise?.id,
-      apartmentId: this.appeal?.apartment?.id,
-      dueDate: this.appeal?.due_date,
-      lastName: this.appeal?.applicant?.last_name,
-      firstName: this.appeal?.applicant?.first_name,
-      patronymicName: this.appeal?.applicant?.patronymic_name,
-      phone: this.appeal?.applicant?.username,
-      description: this.appeal?.description,
+      premiseId: null,
+      apartmentId: null,
+      dueDate: null,
+      lastName: "",
+      firstName: "",
+      patronymicName: "",
+      phone: "",
+      description: "",
     };
   },
   computed: {
@@ -101,11 +101,38 @@ export default {
     },
   },
   methods: {
+    resetFormData() {
+      this.premiseId = null;
+      this.apartmentId = null;
+      this.dueDate = null;
+      this.lastName = "";
+      this.firstName = "";
+      this.patronymicName = "";
+      this.phone = "";
+      this.description = "";
+      this.premisesLoading = true;
+      this.apartmentsLoading = true;
+      this.sendingAppeal = false;
+    },
+    updateLocalData(appeal) {
+      if (!appeal) {
+        this.resetFormData();
+        return;
+      }
+      this.premiseId = appeal?.premise?.id || null;
+      this.apartmentId = appeal?.apartment?.id || null;
+      this.dueDate = new Date(appeal?.due_date) || null;
+      this.lastName = appeal?.applicant?.last_name || "";
+      this.firstName = appeal?.applicant?.first_name || "";
+      this.patronymicName = appeal?.applicant?.patronymic_name || "";
+      this.phone = appeal?.applicant?.username || "";
+      this.description = appeal?.description || "";
+    },
     handleClose() {
       this.$emit("close");
     },
-    submitAppeal() {
-      this.creatingAppeal = true;
+    async submitAppeal() {
+      this.sendingAppeal = true;
       const reqBody = {
         premise_id: this.premiseId,
         apartment_id: this.apartmentId,
@@ -118,11 +145,23 @@ export default {
         description: this.description,
         due_date: formatDateToISO(this.dueDate),
       };
-      console.log(reqBody);
-      // await this.$store.dispatch("createAppeal", reqBody);
-      setTimeout(() => {
-        this.creatingAppeal = false;
-      }, 10000);
+      if (this.type === this.TYPES[0]) {
+        await this.$store.dispatch("createAppeal", reqBody);
+      } else {
+        await this.$store.dispatch("updateAppeal", {
+          appealId: this.appeal.id,
+          appealData: reqBody,
+        });
+      }
+      this.sendingAppeal = false;
+    },
+  },
+  watch: {
+    appeal: {
+      immediate: true,
+      handler(newAppeal) {
+        this.updateLocalData(newAppeal);
+      },
     },
   },
 };

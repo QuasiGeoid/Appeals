@@ -33,6 +33,7 @@
           <AppealsTable
             :appeals="appeals?.results"
             class="appeals-list-page__table"
+            @cell-click="openEditModal"
           />
           <div class="appeals-list-page__pagination-container">
             <span class="appeals-list-page__pagination-info"
@@ -65,8 +66,8 @@
     </div>
     <AppealModal
       class="appeals-list-page__appeal-modal"
-      :show="showAppealModal"
-      :appealId="selectedAppealId"
+      v-if="showAppealModal"
+      :appeal="selectedAppeal"
       @close="closeModal"
     />
   </div>
@@ -107,7 +108,7 @@ export default {
         { value: 50, label: 50 },
       ],
       showAppealModal: false,
-      selectedAppealId: null,
+      selectedAppeal: null,
     };
   },
   computed: {
@@ -141,13 +142,17 @@ export default {
     },
 
     openCreateModal() {
-      this.selectedAppealId = null;
+      this.selectedAppeal = null;
       this.showAppealModal = true;
     },
+
     openEditModal(id) {
-      this.selectedAppealId = id;
+      this.selectedAppeal = this.appeals.results.find((appeal) => {
+        return appeal.id === id;
+      });
       this.showAppealModal = true;
     },
+
     closeModal() {
       this.showAppealModal = false;
       this.fetchAppeals();
