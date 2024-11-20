@@ -3,7 +3,6 @@
     <BaseInput
       :id="id"
       :label="label"
-      type="type"
       v-model="formattedDate"
       placeholder="Срок"
       :error="error"
@@ -16,7 +15,7 @@
         class="date-time-input__datepicker"
         v-if="isCalendarOpen"
         v-model="selectedDate"
-        @input="$emit('input', selectedDate)"
+        @input="updateDate"
         @close="onDatepickerClose"
       />
     </FadeTransition>
@@ -38,9 +37,6 @@ export default {
     size: {
       type: String,
       default: "m",
-      validator(value) {
-        return ["s", "m", "h"].includes(value);
-      },
     },
   },
   data() {
