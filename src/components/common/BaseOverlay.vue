@@ -1,5 +1,5 @@
 <template>
-  <div class="overlay" @click="handleClickOverlay"></div>
+  <div class="overlay" @click="onClickOverlay"></div>
 </template>
 
 <script>
@@ -12,7 +12,7 @@ export default {
     },
   },
   methods: {
-    handleClickOverlay() {
+    onClickOverlay() {
       if (this.closeOnClick) {
         this.$emit("close");
       }
