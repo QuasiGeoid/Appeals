@@ -24,8 +24,7 @@
               'base-datepicker__day',
               {
                 'base-datepicker__day_empty': !d.date,
-                'base-datepicker__day_selected':
-                  selectedDate.getDate() === d.date,
+                'base-datepicker__day_selected': isSelectedDay(d.date),
               },
             ]"
             @click="d.date && onClickDay(d.date)"
@@ -108,19 +107,12 @@ export default {
     },
     time: {
       get() {
-        const hour = this.selectedDate.getHours().toString().padStart(2, "0");
-        const minute = this.selectedDate
-          .getMinutes()
-          .toString()
-          .padStart(2, "0");
-
-        return `${hour}:${minute}`;
+        return this.selectedDate.toTimeString().slice(0, 5); // Format "HH:MM"
       },
       set(val) {
         const [hour, minute] = val.split(":").map(Number);
         if (!isNaN(hour) && !isNaN(minute)) {
-          this.selectedDate.setHours(hour);
-          this.selectedDate.setMinutes(minute);
+          this.selectedDate.setHours(hour, minute);
           this.emitDateUpdate();
         }
       },
@@ -149,6 +141,9 @@ export default {
     emitDateUpdate() {
       this.selectedDate = new Date(this.selectedDate);
       this.$emit("input", this.selectedDate);
+    },
+    isSelectedDay(day) {
+      return this.selectedDate.getDate() === day && day;
     },
   },
 };
