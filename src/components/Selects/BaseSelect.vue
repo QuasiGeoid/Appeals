@@ -1,10 +1,10 @@
 <template>
-  <div class="base-select-wrapper">
+  <div class="base-select">
     <select
       :class="[
-        'base-select-wrapper__select',
-        `base-select-wrapper__select_size-${size}`,
-        { 'base-select-wrapper__select_placeholder-active': !selectedValue },
+        'base-select__control',
+        `base-select__control_size-${size}`,
+        { 'base-select__control_placeholder-active': !selectedValue },
       ]"
       v-model="selectedValue"
       @change="onValueChange"
@@ -16,7 +16,7 @@
         v-for="option in options"
         :key="option.value"
         :value="option.value"
-        class="base-select-wrapper__select-option"
+        class="base-select__control-option"
       >
         {{ option.label }}
       </option>
@@ -24,10 +24,7 @@
     <SvgIcon
       type="mdi"
       :path="iconPath"
-      :class="[
-        'base-select-wrapper__icon',
-        `base-select-wrapper__icon_size-${size}`,
-      ]"
+      :class="['base-select__icon', `base-select__icon_size-${size}`]"
     ></SvgIcon>
   </div>
 </template>
@@ -42,9 +39,7 @@ export default {
       type: Array,
       validator(options) {
         return options.every(
-          (option) =>
-            typeof option.value !== "undefined" &&
-            typeof option.label !== "undefined"
+          (option) => "value" in option && "label" in option
         );
       },
     },
@@ -85,13 +80,13 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.base-select-wrapper
+.base-select
   position: relative
 
-  &__select
+  &__control
     +base-field
     position: relative
-    z-index: 2
+    z-index: $z-index-popup
     background-color: transparent !important
     appearance: none
     width: 100%
