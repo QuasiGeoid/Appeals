@@ -51,9 +51,9 @@ export default {
     },
   },
   mounted() {
-    // if (this.duration > 0) {
-    //   setTimeout(this.close, this.duration);
-    // }
+    if (this.duration > 0) {
+      setTimeout(this.close, this.duration);
+    }
   },
 };
 </script>
