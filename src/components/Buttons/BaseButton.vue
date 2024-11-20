@@ -39,9 +39,9 @@ export default {
 
 <style lang="sass" scoped>
 .btn
+  +transition(background-color)
   font-family: $font-family-secondary
   background-color: $color-primary
-  transition: background-color 0.3s ease
   color: $color-text-secondary
   border: none
   cursor: pointer

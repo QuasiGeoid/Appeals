@@ -31,12 +31,12 @@ export default {
   position: relative
 
   &__label
+    +transition(opacity)
     color: $color-primary
     font: $font-secondary
     font-size: 0.75rem
     text-align: left
     margin-bottom: 1rem
-    transition: opacity 0.3s ease
     opacity: 1
 
     &_hidden

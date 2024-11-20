@@ -150,7 +150,7 @@ export default {
 </script>
 <style lang="sass" scoped>
 .base-datepicker
-  transition: opacity 0.3s ease
+  +transition(opacity)
   display: flex
   flex-direction: column
   justify-content: center
