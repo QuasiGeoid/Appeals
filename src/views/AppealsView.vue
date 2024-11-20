@@ -36,17 +36,10 @@
             @cell-click="openEditModal"
           />
           <div class="appeals-list-page__pagination-container">
-            <span class="appeals-list-page__pagination-info"
-              ><strong
-                >{{ (page - 1) * pageSize + 1 }} -
-                {{
-                  appeals?.count > page * pageSize
-                    ? page * pageSize
-                    : appeals?.count
-                }}</strong
-              >
-              из <strong>{{ appeals?.count }}</strong> записей</span
-            >
+            <span
+              class="appeals-list-page__pagination-info"
+              v-html="getRangeText()"
+            ></span>
             <BaseSelect
               class="appeals-list-page__pagination-select"
               v-model="pageSize"
@@ -80,7 +73,7 @@ import { BaseSelect } from "@/components/Selects";
 import { PremiseDropCompleteInput, FilterInput } from "@/components/Inputs";
 import { AppealModal } from "@/components/Modals";
 import { AppealsTable } from "@/components/Tables";
-import { BasePagination } from "@/components/common/";
+import { BasePagination } from "@/components/common";
 import { LoadingSpinner } from "@/components/Loading";
 
 export default {
@@ -129,6 +122,15 @@ export default {
       };
       await this.$store.dispatch("fetchAppeals", params);
       this.loadingAppeals = false;
+    },
+
+    getRangeText() {
+      const start = (this.page - 1) * this.pageSize + 1;
+      const end =
+        this.appeals?.count > this.page * this.pageSize
+          ? this.page * this.pageSize
+          : this.appeals?.count;
+      return `<strong>${start} - ${end}</strong> <span>из</span> <strong>${this.appeals?.count}</strong> записей`;
     },
 
     handlePageChange(page) {
