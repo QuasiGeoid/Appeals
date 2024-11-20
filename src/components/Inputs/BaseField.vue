@@ -36,7 +36,7 @@ export default {
     font-size: 0.75rem
     text-align: left
     margin-bottom: 1rem
-    transition: 0.3s ease
+    transition: opacity 0.3s ease
     opacity: 1
 
     &_hidden
