@@ -10,8 +10,6 @@ body
 #app
   font: $font-primary
   color: $color-text-primary
-/*
-  text-align: center
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
 </style>
