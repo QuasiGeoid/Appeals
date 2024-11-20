@@ -6,12 +6,12 @@
         <div class="login-page__inputs">
           <LoginInput
             v-model="username"
-            @input="clearLoginError"
+            @input="resetState"
             class="login-page__input"
           />
           <PasswordInput
             v-model="password"
-            @input="clearLoginError"
+            @input="resetState"
             class="login-page__input"
           />
         </div>
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import { LoginInput, PasswordInput } from "@/components/Inputs";
 import { BaseButton } from "@/components/Buttons";
 import { preparePhoneNumber } from "@/utils/utils.js";
@@ -55,8 +55,8 @@ export default {
     },
   },
   methods: {
+    ...mapMutations(["resetState"]),
     async handleLogin() {
-      this.clearLoginError();
       const preparedUsername = preparePhoneNumber(this.username);
       const credentials = {
         username: preparedUsername,
