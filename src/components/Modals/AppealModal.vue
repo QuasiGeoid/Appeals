@@ -57,7 +57,7 @@ import { BaseButton } from "@/components/Buttons";
 import { BaseModal } from "@/components/Modals";
 import { LoadingSpinner } from "@/components/Loading";
 import { NotificationPopup } from "@/components/common";
-import { formatDateToISO } from "@/utils/utils";
+import { formatDateToISO, convertDate } from "@/utils/utils";
 import { mapGetters } from "vuex";
 
 export default {
@@ -105,7 +105,9 @@ export default {
     header() {
       return this.type == this.TYPES[0]
         ? "Создание заявки"
-        : `Заявка № ${this.appeal.number}`;
+        : `Заявка № ${this.appeal.number} (от ${convertDate(
+            this.appeal.created_at
+          )})`;
     },
     buttonLabel() {
       return this.type === this.TYPES[0] ? "Создать" : "Сохранить";
