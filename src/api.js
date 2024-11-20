@@ -28,21 +28,17 @@ apiClient.interceptors.request.use((config) => {
  * @throws Will throw an error if the request fails.
  */
 export const makeRequest = async (method, url, params = {}, options = {}) => {
-  try {
-    let response;
+  let response;
 
-    if (method === "get") {
-      response = await apiClient.get(url, { ...options, params });
-    } else if (method === "post") {
-      response = await apiClient.post(url, params, options);
-    } else if (method === "patch") {
-      response = await apiClient.patch(url, params, options);
-    }
-
-    return response.data;
-  } catch (error) {
-    console.log(error.response.data);
+  if (method === "get") {
+    response = await apiClient.get(url, { ...options, params });
+  } else if (method === "post") {
+    response = await apiClient.post(url, params, options);
+  } else if (method === "patch") {
+    response = await apiClient.patch(url, params, options);
   }
+
+  return response.data;
 };
 
 export const login = async (username, password) => {

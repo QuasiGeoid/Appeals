@@ -29,11 +29,16 @@
         >{{ buttonLabel }}</BaseButton
       >
     </form>
+    <NotificationPopup
+      v-if="notification.show"
+      :type="notification.type"
+      :message="notification.message"
+      @close="notification.show = false"
+    />
   </BaseModal>
 </template>
 
 <script>
-import { BaseModal } from "@/components/Modals";
 import {
   ApartmentDropCompleteInput,
   BaseInput,
@@ -43,8 +48,11 @@ import {
   PremiseDropCompleteInput,
 } from "@/components/Inputs";
 import { BaseButton } from "@/components/Buttons";
-import { formatDateToISO } from "@/utils/utils";
+import { BaseModal } from "@/components/Modals";
 import { LoadingSpinner } from "@/components/Loading";
+import { NotificationPopup } from "@/components/common";
+import { formatDateToISO } from "@/utils/utils";
+import { mapGetters } from "vuex";
 
 export default {
   name: "AppealModal",
@@ -58,6 +66,7 @@ export default {
     PremiseDropCompleteInput,
     LoadingSpinner,
     PhoneInput,
+    NotificationPopup,
   },
   props: {
     show: {
@@ -82,9 +91,15 @@ export default {
       patronymicName: "",
       phone: "",
       description: "",
+      notification: {
+        show: false,
+        type: "success",
+        message: "",
+      },
     };
   },
   computed: {
+    ...mapGetters(["appealError"]),
     type() {
       return this.appeal ? this.TYPES[1] : this.TYPES[0];
     },
@@ -113,6 +128,11 @@ export default {
       this.premisesLoading = true;
       this.apartmentsLoading = true;
       this.sendingAppeal = false;
+      this.notification = {
+        show: false,
+        type: "success",
+        message: "",
+      };
     },
     updateLocalData(appeal) {
       if (!appeal) {
@@ -154,6 +174,13 @@ export default {
         });
       }
       this.sendingAppeal = false;
+      if (this.appealError) {
+        this.notification.show = true;
+        this.notification.type = "fail";
+        this.notification.message = this.appealError;
+      } else {
+        this.handleClose();
+      }
     },
   },
   watch: {

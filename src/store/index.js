@@ -33,6 +33,9 @@ export default new Vuex.Store({
     apartmentSelectList: (state) => {
       return mapToSelectList(state.apartments?.results, "id", "label");
     },
+    appealError: (state) => {
+      return state.appealError?.response?.data?.detail;
+    },
   },
   mutations: {
     setEmployeeId(state, id) {
