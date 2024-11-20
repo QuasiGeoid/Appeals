@@ -3,9 +3,7 @@
     <BaseInput
       ref="input"
       v-model="searchTerm"
-      type="text"
       :placeholder="loading ? `${placeholder} загрузка данных...` : placeholder"
-      size="m"
       @input="inputUpdate"
       @focus="showDropdown = true"
       class="drop-complete__input"
@@ -27,10 +25,7 @@
         </template>
       </ul>
     </FadeTransition>
-    <div
-      class="drop-complete__container-icon"
-      @click="showDropdown = !showDropdown"
-    >
+    <div class="drop-complete__container-icon" @click="toggleDropdown">
       <SvgIcon
         type="mdi"
         :path="iconPath"
@@ -104,6 +99,13 @@ export default {
       this.showDropdown = false;
       this.$emit("input", option.value);
     },
+    toggleDropdown() {
+      if (this.showDropdown) {
+        this.closeDropdown();
+      } else {
+        this.showDropdown = true;
+      }
+    },
     closeDropdown() {
       // Delay to allow for click events to register before closing dropdown
       setTimeout(() => {
@@ -134,7 +136,6 @@ export default {
 <style lang="sass" scoped>
 .drop-complete
   position: relative
-  z-index: 2
   width: 100%
 
   &__input
@@ -167,7 +168,7 @@ export default {
       cursor: pointer
       position: absolute
       top: 35%
-      right: 5%
+      right: 1rem
       transform: scale(1.2)
       color: $color-placeholder
 </style>
