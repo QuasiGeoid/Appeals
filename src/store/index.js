@@ -12,16 +12,18 @@ import {
 
 Vue.use(Vuex);
 
+const defaultState = {
+  employeeId: null,
+  token: null,
+  appeals: null,
+  premises: null,
+  apartments: null,
+  loginError: null,
+  appealError: null,
+};
+
 export default new Vuex.Store({
-  state: {
-    employeeId: null,
-    token: null,
-    appeals: null,
-    premises: null,
-    apartments: null,
-    loginError: null,
-    appealError: null,
-  },
+  state: { ...defaultState },
   getters: {
     isAuthenticated: (state) => !!state.token,
     loginError: (state) => state.loginError,
@@ -38,42 +40,28 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    setEmployeeId(state, id) {
-      state.employeeId = id;
-    },
-    setToken(state, token) {
-      state.token = token;
-    },
-    setAppeals(state, appeals) {
-      state.appeals = appeals;
-    },
-    setPremises(state, premises) {
-      state.premises = premises;
-    },
-    setApartments(state, apartments) {
-      state.apartments = apartments;
-    },
-    setLoginError(state, loginError) {
-      state.loginError = loginError;
-    },
-    setAppealError(state, appealError) {
-      state.appealError = appealError;
+    setState(state, payload) {
+      Object.keys(payload).forEach((key) => {
+        state[key] = payload[key];
+      });
     },
     resetState(state) {
-      Object.keys(state).forEach((key) => {
-        state[key] = null;
+      Object.keys(defaultState).forEach((key) => {
+        state[key] = defaultState[key];
       });
     },
   },
   actions: {
     async login({ commit }, { username, password }) {
+      commit("resetState");
       try {
-        commit("resetState");
         const response = await apiLogin(username, password);
-        commit("setEmployeeId", response.employee_id);
-        commit("setToken", response.key);
+        commit("setState", {
+          employeeId: response.employee_id,
+          token: response.key,
+        });
       } catch {
-        commit("setLoginError", "Неправильные данные");
+        commit("setState", { loginError: "Неправильные данные" });
       }
     },
     async fetchAppeals(
@@ -87,35 +75,33 @@ export default new Vuex.Store({
         page,
       };
       const response = await apiFetchAppeals(params);
-      commit("setAppeals", response);
+      commit("setState", { appeals: response });
     },
 
     async fetchPremises({ commit }, { search = "" }) {
-      const params = { search };
-      const response = await apiFetchPremises(params);
-      commit("setPremises", response);
+      const response = await apiFetchPremises({ search });
+      commit("setState", { premises: response });
     },
 
     async fetchApartments({ commit }, { search = "", premise_id = "" }) {
-      const params = { search, premise_id };
-      const response = await apiFetchApartments(params);
-      commit("setApartments", response);
+      const response = await apiFetchApartments({ search, premise_id });
+      commit("setState", { apartments: response });
     },
 
     async createAppeal({ commit }, appealData) {
-      commit("setAppealError", null);
+      commit("setState", { appealError: null });
       try {
         await apiCreateAppeal({ ...appealData, status_id: 1 });
       } catch (e) {
-        commit("setAppealError", e);
+        commit("setState", { appealError: e });
       }
     },
     async updateAppeal({ commit }, { appealId, appealData }) {
-      commit("setAppealError", null);
+      commit("setState", { appealError: null });
       try {
         await apiUpdateAppeal(appealId, appealData);
       } catch (e) {
-        commit("setAppealError", e);
+        commit("setState", { appealError: e });
       }
     },
   },
