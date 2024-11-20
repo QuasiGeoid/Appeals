@@ -148,8 +148,8 @@ export default {
     max-height: 50vh
     overflow-y: auto
     background-color: $color-background-primary
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
-    z-index: 10
+    box-shadow: $box-shadow
+    z-index: $z-index-popup
     margin-top: 0
     padding: 0
 
