@@ -40,25 +40,18 @@ export default {
     ...mapGetters(["apartmentSelectList"]),
   },
   watch: {
-    value: {
-      immediate: true,
-      handler(newVal) {
-        this.apartmentId = newVal;
-      },
+    value(newVal) {
+      this.apartmentId = newVal;
     },
-    premiseId: {
-      immediate: true,
-      handler(newVal) {
-        this.localPremiseId = newVal;
-        this.fetchApartments();
-      },
+    premiseId(newVal) {
+      this.localPremiseId = newVal;
+      this.fetchApartments();
     },
   },
   methods: {
     fetchApartments: debounce(async function () {
-      if (!this.localPremiseId) {
-        return;
-      }
+      if (!this.localPremiseId) return;
+
       this.loadingApartments = true;
 
       const params = {
