@@ -204,6 +204,7 @@ export default {
   &__header
     +flex-center
     justify-content: space-between
+    gap: 5rem
 
   &__form
     display: flex
