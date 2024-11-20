@@ -3,7 +3,7 @@
     :type="type"
     :disabled="disabled"
     :class="['btn', `btn_size-${size}`]"
-    @click="$emit('click')"
+    @click="handleClick"
   >
     <slot></slot>
   </button>
@@ -29,6 +29,11 @@ export default {
       },
     },
   },
+  methods: {
+    handleClick(event) {
+      this.$emit("click", event);
+    },
+  },
 };
 </script>
 
@@ -36,6 +41,7 @@ export default {
 .btn
   font-family: $font-family-secondary
   background-color: $color-primary
+  transition: background-color 0.3s ease
   color: $color-text-secondary
   border: none
   cursor: pointer
@@ -43,14 +49,14 @@ export default {
 
   &_size-s
     max-width: 78px
-    font-size: 10px
-    padding: 8px 16px
+    font-size: 0.625rem
+    padding: 0.5rem 1rem
     border-radius: 2px
 
   &_size-m
     max-width: 110px
-    font-size: 14px
-    padding: 12px 16px
+    font-size: 0.875rem
+    padding: 0.65rem 1rem
     border-radius: 4px
 
   &:hover
