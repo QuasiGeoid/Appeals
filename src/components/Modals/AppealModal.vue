@@ -1,6 +1,9 @@
 <template>
   <BaseModal @close="handleClose" class="appeal-modal">
-    <h2>{{ header }}</h2>
+    <div class="appeal-modal__header">
+      <h2>{{ header }}</h2>
+      <div>{{ appeal?.status?.name || "Новая" }}</div>
+    </div>
     <LoadingSpinner v-if="sendingAppeal" class="appeal-modal__spinner" />
     <form v-else @submit.prevent="submitAppeal" class="appeal-modal__form">
       <div class="appeal-modal__row">
@@ -195,6 +198,10 @@ export default {
 <style lang="sass" scoped>
 .appeal-modal
   z-index: $z-index-modal
+
+  &__header
+    +flex-center
+    justify-content: space-between
 
   &__form
     display: flex
