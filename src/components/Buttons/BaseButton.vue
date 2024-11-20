@@ -3,7 +3,7 @@
     :type="type"
     :disabled="disabled"
     :class="['btn', `btn_size-${size}`]"
-    @click="handleClick"
+    @click="onClick"
   >
     <slot></slot>
   </button>
@@ -30,7 +30,7 @@ export default {
     },
   },
   methods: {
-    handleClick(event) {
+    onClick(event) {
       this.$emit("click", event);
     },
   },

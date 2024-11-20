@@ -1,5 +1,5 @@
 <template>
-  <button class="nav-button" @click="handleClick" :disabled="disabled">
+  <button class="nav-button" @click="onClick" :disabled="disabled">
     {{ label }}
   </button>
 </template>
@@ -36,7 +36,7 @@ export default {
     },
   },
   methods: {
-    handleClick() {
+    onClick() {
       if (!this.disabled) {
         this.$emit("click", this.type);
       }
