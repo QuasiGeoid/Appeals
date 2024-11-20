@@ -54,5 +54,5 @@ export default {
   color: $color-nav-btn-txt
 
   &:disabled
-    cursor: default
+    +disabled
 </style>
