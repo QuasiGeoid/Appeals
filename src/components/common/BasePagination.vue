@@ -1,9 +1,9 @@
 <template>
   <div class="base-pagination">
     <NavButton
-      type="first"
+      type="step-first"
       :disabled="currentPage === 1"
-      @click="goToPage(1)"
+      @click="goToPage(currentPage - maxPagesDisplayed)"
     />
 
     <NavButton
@@ -20,11 +20,14 @@
       >...</span
     >
 
-    <span v-for="page in displayedPages" :key="page">
-      <PageButton :selected="page == currentPage" @click="goToPage(page)">
-        {{ page }}
-      </PageButton>
-    </span>
+    <PageButton
+      v-for="page in displayedPages"
+      :key="page"
+      :selected="page === currentPage"
+      @click="goToPage(page)"
+    >
+      {{ page }}
+    </PageButton>
 
     <span
       v-if="displayedPages.at(-1) < totalPages - 1"
@@ -44,9 +47,9 @@
     />
 
     <NavButton
-      type="last"
+      type="step-last"
       :disabled="currentPage === totalPages"
-      @click="goToPage(totalPages)"
+      @click="goToPage(currentPage + maxPagesDisplayed)"
     />
   </div>
 </template>
@@ -100,9 +103,13 @@ export default {
   },
   methods: {
     goToPage(page) {
-      if (page >= 1 && page <= this.totalPages) {
-        this.$emit("page-change", page);
+      let selectedPage = page;
+      if (page < 1) {
+        selectedPage = 1;
+      } else if (page > this.totalPages) {
+        selectedPage = this.totalPages;
       }
+      this.$emit("page-change", selectedPage);
     },
   },
 };

@@ -11,7 +11,8 @@ export default {
     type: {
       type: String,
       required: true,
-      validator: (value) => ["first", "prev", "next", "last"].includes(value),
+      validator: (value) =>
+        ["step-first", "prev", "next", "step-last"].includes(value),
     },
     disabled: {
       type: Boolean,
@@ -21,13 +22,13 @@ export default {
   computed: {
     label() {
       switch (this.type) {
-        case "first":
+        case "step-first":
           return "<<";
         case "prev":
           return "<";
         case "next":
           return ">";
-        case "last":
+        case "step-last":
           return ">>";
         default:
           return "";
