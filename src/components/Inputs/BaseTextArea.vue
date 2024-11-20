@@ -49,5 +49,6 @@ export default {
   &__field
     +base-field
     +input-field
+    padding-left: 1rem !important
     resize: none
 </style>

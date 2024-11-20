@@ -31,14 +31,11 @@ export default {
   height: 100vh
 
   &__content
-    position: fixed
-    top: 50%
-    left: 50%
-    transform: translate(-50%, -50%)
+    +absolute-center-fixed
     justify-content: center
     align-items: center
     background-color: $color-background-primary
     padding: 1.5rem 2rem
-    border-radius: 0.5rem
+    border-radius: 8px
     z-index: $z-index-modal
 </style>

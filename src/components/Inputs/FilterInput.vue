@@ -38,8 +38,7 @@ export default {
 
 <style lang="sass" scoped>
 .filter-input
-  display: flex
-  align-items: end
+  +flex-end
   width: 100%
 
   &__icon

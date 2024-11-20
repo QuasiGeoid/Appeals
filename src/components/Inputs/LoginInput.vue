@@ -4,7 +4,7 @@
     <BaseInput
       placeholder="Логин или Телефон"
       id="login"
-      size="m"
+      size="s"
       v-model="localValue"
       @input="onInput"
     />
@@ -42,8 +42,7 @@ export default {
 
 <style lang="sass" scoped>
 .login-input
-  display: flex
-  align-items: end
+  +flex-end
   width: 100%
 
   &__icon

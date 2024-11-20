@@ -12,9 +12,7 @@ export default {
 
 <style lang="sass" scoped>
 .loading-spinner-container
-  display: flex
-  justify-content: center
-  align-items: center
+  +flex-center
   height: 100vh
 
   &__spinner

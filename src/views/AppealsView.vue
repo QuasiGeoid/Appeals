@@ -169,12 +169,13 @@ export default {
 <style lang="sass" scoped>
 .appeals-list-page
   background-color: #eee
-  padding: 10px 15px
-  height: 100vh
+  padding: 0.625rem 1rem
+  height: 100%
 
   &__content
     background-color: $color-background-primary
-    padding: 10px 20px
+    padding: 0.625rem 1.25rem
+    border-radius: 8px
 
   &__header
     font: $font-page-header
@@ -182,31 +183,29 @@ export default {
 
   &__button-wrapper
     display: flex
-    margin-bottom: 32px
+    margin-bottom: 2rem
 
   &__button
     margin-left: auto
     font-variant: small-caps
 
   &__filters-container
-    display: flex
-    gap: 10px
+    +flex-end
+    gap: 0.625rem
     justify-content: space-between
-    align-items: end
-    margin-bottom: 20px
+    margin-bottom: 1.25rem
 
   &__filter
     flex: 1
 
   &__pagination
     &-container
-      display: flex
-      margin-top: 32px
-      align-items: center
+      +flex-center
+      margin-top: 2rem
 
     &-info
       font-family: $font-family-secondary
-      margin-right: 16px
+      margin-right: 1rem
 
     &-select
       width: 89px

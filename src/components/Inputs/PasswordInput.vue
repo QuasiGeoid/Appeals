@@ -6,7 +6,7 @@
       :type="showPassword ? 'text' : 'password'"
       :value="value"
       :placeholder="'Пароль'"
-      size="m"
+      size="s"
       @input="$emit('input', $event)"
     />
     <div @click="toggleShowPassword" class="password-input__icon-container">
@@ -47,13 +47,11 @@ export default {
 
 <style lang="sass" scoped>
 .password-input
-  display: flex
-  align-items: end
+  +flex-end
   width: 100%
 
   &__icon-container
-    display: flex
-    align-items: end
+    +flex-end
 
   &__icon
     +input-icon

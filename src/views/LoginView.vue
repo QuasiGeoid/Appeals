@@ -76,9 +76,7 @@ export default {
 
 <style lang="sass" scoped>
 .login-page
-  display: flex
-  justify-content: center
-  align-items: center
+  +flex-center
   height: 100vh
   background: url("@/assets/images/login_background.jpeg") no-repeat center center
   background-size: cover
@@ -89,7 +87,7 @@ export default {
     justify-content: space-evenly
     align-items: center
     background-color: white
-    padding: 86px 20px 20px
+    padding: 5.375rem 1.25rem 1.25rem
     border-radius: 5px
     max-width: 300px
     width: 100%
@@ -104,7 +102,7 @@ export default {
     margin: 0 auto
     color: $color-background-primary
     background-color: $color-header-label
-    padding: 18px 0
+    padding: 1.125rem 0
     border-radius: 5px
     font: $font-primary
     font-weight: 500
@@ -122,10 +120,10 @@ export default {
     justify-content: center
 
   &__button
-    margin-top: 28px
+    margin-top: 1.75rem
 
   &__error
     text-align: center
-    margin-top: 16px
+    margin-top: 1rem
     color: $color-error
 </style>

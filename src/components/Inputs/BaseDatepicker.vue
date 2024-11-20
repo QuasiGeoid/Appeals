@@ -151,10 +151,8 @@ export default {
 <style lang="sass" scoped>
 .base-datepicker
   +transition(opacity)
-  display: flex
+  +flex-center
   flex-direction: column
-  justify-content: center
-  align-items: center
   background-color: $color-background-primary
   padding: 1rem
   border-radius: 8px
@@ -163,7 +161,7 @@ export default {
 
   &__year-month-label
     display: inline-block
-    width: 10rem
+    width: 160px
     text-align: center
 
   &__day

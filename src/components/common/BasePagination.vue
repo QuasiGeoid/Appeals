@@ -117,9 +117,8 @@ export default {
 
 <style lang="sass" scoped>
 .base-pagination
-  display: flex
+  +flex-center
   gap: 0.75rem
-  align-items: center
 
   &__ellipsis
     color: $color-nav-btn-txt

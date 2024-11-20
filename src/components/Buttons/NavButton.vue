@@ -48,7 +48,7 @@ export default {
 <style lang="sass" scoped>
 .nav-button
   font: $font-secondary
-  padding: 8px 12px
+  padding: 0.5rem 0.75rem
   border: none
   cursor: pointer
   background-color: transparent

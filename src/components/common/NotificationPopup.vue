@@ -60,15 +60,13 @@ export default {
 
 <style lang="sass" scoped>
 .notification-popup
-  +center-fixed
+  +absolute-center-fixed
+  +flex-center
   padding: 1rem 1.5rem
   border-radius: 8px
   color: $color-text-secondary
   box-shadow: $box-shadow
   z-index: $z-index-notification
-  display: flex
-  align-items: center
-  justify-content: space-between
 
   &_success
     background-color: $color-primary
@@ -85,7 +83,7 @@ export default {
   &__close
     background: transparent
     border: none
+    cursor: pointer
     font-size: 1.2rem
     color: $color-text-secondary
-    cursor: pointer
 </style>
