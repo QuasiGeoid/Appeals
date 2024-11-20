@@ -1,7 +1,7 @@
 <template>
   <button
     class="page-button"
-    :class="selected ? 'page-button_selected' : ''"
+    :class="{ 'page-button_selected': selected }"
     @click="$emit('click')"
   >
     <slot></slot>
@@ -35,7 +35,5 @@ export default {
   aspect-ratio: 1 / 1
 
   &_selected
-    color: $color-background-primary
-    background-color: $color-primary
-    cursor: default
+    +selected
 </style>

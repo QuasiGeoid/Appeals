@@ -162,7 +162,7 @@ export default {
   align-items: center
   background-color: $color-background-primary
   padding: 1rem
-  border-radius: 0.5rem
+  border-radius: 8px
   z-index: $z-index-popup
   gap: 1rem
 
@@ -173,7 +173,7 @@ export default {
 
   &__day
     border: $border-bottom-input
-    border-radius: 0.5rem
+    border-radius: 8px
     text-align: center
     padding: 0.5rem
     cursor: pointer
@@ -190,11 +190,7 @@ export default {
         background-color: $color-disabled
 
     &_selected
-      color: $color-text-secondary
-      background-color: $color-primary
-
-      &:hover
-        background-color: $color-primary
+      +selected
 
   &__time
     width: 40%
