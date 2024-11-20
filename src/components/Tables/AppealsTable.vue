@@ -114,31 +114,23 @@ export default {
       return sortByField(this.appeals, this.sort.field, this.sort.order);
     },
     sortIcon() {
-      return this.sort.order == "asc" ? mdiArrowDown : mdiArrowUp;
+      return this.sort.order === "asc" ? mdiArrowDown : mdiArrowUp;
     },
   },
   methods: {
     sortBy(field) {
-      if (this.sort.field == field) {
-        const order = this.sort.order;
-        this.sort.order = order == "asc" ? "desc" : "asc";
-      } else {
-        this.sort.field = field;
-        this.sort.order = "asc";
-      }
+      this.sort.order =
+        this.sort.field === field && this.sort.order === "asc" ? "desc" : "asc";
+      this.sort.field = field;
     },
     convertDate(...args) {
       return convertDateUtil(...args);
     },
     getSurnameWithInitials(applicant) {
-      const firstNameInitial = applicant.first_name?.[0]
-        ? `${applicant.first_name[0]}.`
-        : "";
-      const patronymicInitial = applicant.patronymic_name?.[0]
-        ? `${applicant.patronymic_name[0]}.`
-        : "";
-
-      return `${applicant.last_name} ${firstNameInitial} ${patronymicInitial}`.trim();
+      const initials = [applicant.first_name, applicant.patronymic_name]
+        .map((name) => (name ? `${name[0]}.` : ""))
+        .join(" ");
+      return `${applicant.last_name} ${initials}`.trim();
     },
     getAddress(appeal) {
       const { premise, apartment } = appeal;
