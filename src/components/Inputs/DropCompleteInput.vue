@@ -4,6 +4,7 @@
       ref="input"
       v-model="searchTerm"
       :placeholder="loading ? `${placeholder} загрузка данных...` : placeholder"
+      size="m"
       @input="inputUpdate"
       @focus="showDropdown = true"
       class="drop-complete__input"
@@ -13,16 +14,17 @@
       <ul v-if="showDropdown" class="drop-complete__dropdown" ref="dropDown">
         <li v-if="loading" class="drop-complete__loading">Поиск...</li>
         <li v-else-if="!options.length">Ничего не найдено</li>
-        <template v-else>
-          <li
-            v-for="option in options"
-            :key="option.value"
-            @click="selectOption(option)"
-            class="drop-complete__option"
-          >
-            {{ option.label }}
-          </li>
-        </template>
+        <li v-else class="drop-complete__empty-option" @click="clearSelection">
+          Очистить выбор
+        </li>
+        <li
+          v-for="option in options"
+          :key="option.value"
+          @click="selectOption(option)"
+          class="drop-complete__option"
+        >
+          {{ option.label }}
+        </li>
       </ul>
     </FadeTransition>
     <div class="drop-complete__container-icon" @click="toggleDropdown">
@@ -99,6 +101,11 @@ export default {
       this.showDropdown = false;
       this.$emit("input", option.value);
     },
+    clearSelection() {
+      this.searchTerm = "";
+      this.showDropdown = false;
+      this.$emit("input", null);
+    },
     toggleDropdown() {
       if (this.showDropdown) {
         this.closeDropdown();
@@ -153,6 +160,14 @@ export default {
     z-index: $z-index-popup
     margin-top: 0
     padding: 0
+
+  &__empty-option
+    padding: 0.5rem
+    cursor: pointer
+    color: $color-placeholder
+    font-style: italic
+    &:hover
+      background-color: darken($color-background-primary, 10%)
 
   &__option
     padding: 0.5rem
